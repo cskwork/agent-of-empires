@@ -92,7 +92,7 @@ Write-Ok "WSL is available."
 if (-not $Distribution) {
     $Distribution = Get-DefaultDistro
     if (-not $Distribution) {
-        Write-ErrMsg "No WSL distribution found. Install one: `wsl --install -d Ubuntu`"
+        Write-ErrMsg 'No WSL distribution found. Install one with: wsl --install -d Ubuntu'
         exit 1
     }
 }
@@ -120,7 +120,7 @@ if ($rc -ne 0) {
 $probe = (& wsl.exe -d $Distribution -e bash -lc 'command -v aoe').Trim()
 if (-not $probe) {
     Write-Warn "aoe installed but not on the WSL login shell PATH."
-    Write-Warn "Add `$HOME/.local/bin` to PATH in your WSL shell rc file."
+    Write-Warn 'Add $HOME/.local/bin to PATH in your WSL shell rc file.'
 } else {
     Write-Ok "aoe installed at: $probe (inside $Distribution)"
 }

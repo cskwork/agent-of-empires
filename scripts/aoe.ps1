@@ -86,7 +86,7 @@ function ConvertTo-WslPath {
     return $Path
 }
 
-function Looks-LikePath {
+function Test-IsPath {
     param([string]$Value)
     if (-not $Value) { return $false }
     if ($Value.StartsWith('wsl:'))           { return $true }
@@ -95,7 +95,7 @@ function Looks-LikePath {
     return $false
 }
 
-function Quote-Bash {
+function ConvertTo-BashQuoted {
     param([string]$Value)
     # Single-quote and escape inner single quotes the POSIX way.
     return "'" + ($Value -replace "'", "'\''") + "'"
@@ -112,7 +112,7 @@ if (-not $distro) {
 # Translate path-shaped arguments. Non-paths pass through untouched.
 $translated = @()
 foreach ($a in $Arguments) {
-    if (Looks-LikePath $a) {
+    if (Test-IsPath $a) {
         $translated += (ConvertTo-WslPath $a)
     } else {
         $translated += $a
@@ -122,7 +122,7 @@ foreach ($a in $Arguments) {
 # Build a quoted bash command so word splitting inside WSL matches the
 # original Windows arg vector. `exec` keeps the process tree clean so Ctrl+C
 # is forwarded straight to aoe.
-$quoted = ($translated | ForEach-Object { Quote-Bash $_ }) -join ' '
+$quoted = ($translated | ForEach-Object { ConvertTo-BashQuoted $_ }) -join ' '
 $bashCmd = "exec aoe $quoted"
 
 $wslArgs = @('-d', $distro)
