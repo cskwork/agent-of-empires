@@ -85,6 +85,13 @@ git clone https://github.com/njbrake/agent-of-empires
 cd agent-of-empires && cargo build --release
 ```
 
+```powershell
+# Windows (WSL2 bridge — runs aoe inside WSL2, callable from PowerShell/cmd/Windows Terminal)
+irm https://raw.githubusercontent.com/njbrake/agent-of-empires/main/scripts/install.ps1 | iex
+```
+
+See [docs/guides/windows.md](docs/guides/windows.md) for the Windows setup, path translation rules, and troubleshooting.
+
 ## Quick Start
 
 ```bash
@@ -132,7 +139,7 @@ Yes. AoE runs in your terminal and sessions persist across disconnects. If your 
 
 ### Does it work on Windows?
 
-Only through WSL2. AoE depends on tmux and POSIX process handling, so native Windows is not supported.
+Only through WSL2 — AoE depends on tmux and POSIX process handling. This fork ships a PowerShell wrapper so you can run `aoe` from PowerShell, cmd, or Windows Terminal and have it transparently execute inside your WSL2 distro (including Windows-to-WSL path translation). See [docs/guides/windows.md](docs/guides/windows.md). A true native Windows binary is not provided.
 
 ### How is this different from just using tmux directly?
 
